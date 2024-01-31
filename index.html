@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodish App</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .food-image {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container text-center">
+  <h1 class="mt-4">Foodish App</h1>
+  <div class="form-group mt-4">
+    <label for="foodInput">Enter Food:</label>
+    <input type="text" class="form-control" id="foodInput" placeholder="e.g., biryani">
+  </div>
+  <button id="getFoodBtn" class="btn btn-primary mt-3">Get Food Image</button>
+  <div id="foodImageContainer" class="mt-4">
+
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+
+    function getFoodImage(food) {
+      $.ajax({
+        url: "https://foodish-api.com/api/images/" + food,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+          displayFoodImage(data.image);
+        },
+        error: function (error) {
+          console.error("Error fetching food image:", error);
+          displayFoodImageNotFound();
+        }
+      });
+    }
+
+
+    function displayFoodImage(imageUrl) {
+      $("#foodImageContainer").html('<img src="' + imageUrl + '" alt="Food Image" class="food-image">');
+    }
+
+
+    function displayFoodImageNotFound() {
+      $("#foodImageContainer").html('<p>Food image not found. Please try another food.</p>');
+    }
+
+
+    $("#getFoodBtn").on("click", function () {
+      var userInput = $("#foodInput").val().trim().toLowerCase();
+      if (userInput !== "") {
+        getFoodImage(userInput);
+      } else {
+        alert("Please enter a food name.");
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
