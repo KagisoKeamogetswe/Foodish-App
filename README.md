@@ -17,6 +17,9 @@ Feast your eyes on the delightful images of your favorite foods.
 
 ## Technologies Used:
 HTML
+
 Bootstrap
+
 JavaScript (jQuery)
+
 Foodish API
